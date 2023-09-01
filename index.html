@@ -17,11 +17,19 @@
 				<main>
 								<div>
 												<h1>Input</h1>
-												<input type="file">
+												<input id="imgUpload" type="file">
 												<img src="haku.png" />
 								</div>
 								<div>
 												<h1>Output</h1>
+												<label>Contrast
+																<input id="contrast" type="range" min="-100" max="100" step="any" />
+												</label>
+
+												<label>Brightness
+																<input id="brightness" type="range" min="0" max="5" step="any" />
+												</label>
+
 												<pre>
 																<code id="out"></code>
 												</pre>
