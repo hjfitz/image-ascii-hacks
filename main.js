@@ -1,36 +1,68 @@
-
-document.addEventListener('DOMContentLoaded', () => {
-				const canvas = document.querySelector('canvas')
-				const img = document.querySelector('img')
-				const out = document.querySelector('#out')
-				computeAscii(canvas, img, out)
-})
-
 const ASCII_WIDTH = 200
 const CHAR_DENSITY = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,\"^`'. ".split('').reverse()
 
+document.addEventListener('DOMContentLoaded', () => {
+				const [img, out, imgInput] = collectElems()
+				imgInput.addEventListener('change', e => handleNewImage(e.target.files[0], img))
+				computeAscii(img, out)
+})
+
 /**
- * @param {HTMLCanvasElement} canvasElem
+ * @param {File} file
  * @param {HTMLImageElement} imgElem
- * @param {HTMLCodeElement} codeElem
  */
-function computeAscii(canvasElem, imgElem, codeElem) {
-				const ctx = canvasElem.getContext('2d')
+function handleNewImage(file, imgElem) {
+				if (!file.type.startsWith('image'))
+								return
+
+				const url = URL.createObjectURL(file)
+				imgElem.src = url
+				imgElem.onload = () => {
+								refreshAsciiImage()
+				}
+}
+
+function refreshAsciiImage() {
+				const [img, out] = collectElems()
+				computeAscii(img, out)
+}
+
+/**
+ * @returns {[HTMLImageElement, HTMLSpanElement, HTMLInputElement]}
+ */
+function collectElems() {
+				const img = document.querySelector('img')
+				const out = document.querySelector('#out')
+				const imgInput = document.querySelector('input')
+				return [img, out, imgInput]
+}
+
+
+/**
+ * @param {HTMLImageElement} imgElem
+ * @param {HTMLSpanElement} codeElem
+ */
+function computeAscii(imgElem, codeElem) {
+				console.log(imgElem)
+				const canvas = document.createElement('canvas')
+				const ctx = canvas.getContext('2d')
+
 				const scaleFactor = imgElem.width / ASCII_WIDTH
 				const height = (imgElem.height / scaleFactor) / 4 // fuck about until the image looks square
 
-				canvasElem.width = ASCII_WIDTH
-				canvasElem.height = height 
+				canvas.width = ASCII_WIDTH
+				canvas.height = height 
 				ctx.drawImage(imgElem, 0, 0, ASCII_WIDTH, height)
 
 				const imageData = ctx.getImageData(0, 0, ASCII_WIDTH, height)
+
+				//bumpContrast(imageData.data, 100)
 
 				let ascii = ''
 				for (let i = 0; i < imageData.data.length; i+= 4) {
 								const r = imageData.data[i]
 								const g = imageData.data[i + 1]
 								const b = imageData.data[i + 2]
-								// ignore i+3 as this is alpha
 								//const avg = (r + g + b) / 3 // average
 								const avg = (0.21 * r) + (0.72 * g) + (0.07 * b) // luminescence
 
@@ -42,6 +74,18 @@ function computeAscii(canvasElem, imgElem, codeElem) {
 												ascii += '\n'
 				}
 				const text = document.createTextNode(ascii)
+				codeElem.textContent = ''
 				codeElem.appendChild(text)
 
+}
+
+function bumpContrast(pixelValues, contrast) {
+    contrast = (contrast/100) + 1;  //convert to decimal & shift range: [0..2]
+    const intercept = 128 * (1 - contrast);
+    for(let i = 0; i < pixelValues.length; i += 4){
+        pixelValues[i] = pixelValues[i] * contrast + intercept;
+        pixelValues[i+1] = pixelValues[i+1] * contrast + intercept;
+        pixelValues[i+2] = pixelValues[i+2] * contrast + intercept;
+    }
+    return pixelValues;
 }
