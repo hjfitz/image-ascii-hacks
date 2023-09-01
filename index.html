@@ -17,18 +17,26 @@
 				<main>
 								<div>
 												<h1>Input</h1>
+												<button id="camSwitch" data-mode="image">Use Webcam</button>
 												<input id="imgUpload" type="file">
-												<img src="haku.png" />
+												<div>
+																<img src="haku.png" style="display: block;" />
+																<video style="display: none;" height="400"></video>
+												</div>
 								</div>
 								<div>
 												<h1>Output</h1>
-												<label>Contrast
+												<label>
+																Contrast
 																<input id="contrast" type="range" min="-100" max="100" step="any" />
 												</label>
 
-												<label>Brightness
+												<label>
+																Brightness
 																<input id="brightness" type="range" min="0" max="5" step="any" />
 												</label>
+
+												<canvas style=""></canvas>
 
 												<pre>
 																<code id="out"></code>
