@@ -41,6 +41,7 @@ async function switchModes(e) {
 				
 }
 
+// copy and paste because it works
 function drawFrame() {
 				const {canvas, vid, out} = collectElems()
 				const { width, height: vidHeight } = vid.getBoundingClientRect()
