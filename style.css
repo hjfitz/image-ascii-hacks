@@ -1,0 +1,26 @@
+pre {
+				line-height: 0.2;
+}
+
+code {
+				font-size: 0.4vw;
+}
+
+canvas {
+				display: none;
+}
+
+main {
+				display: grid;
+				grid-template-columns: 50% 50%;
+				width: 100%;
+}
+
+img {
+				max-width: 100%;
+				height: auto;
+}
+
+section {
+				column-span: 1;
+}

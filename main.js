@@ -60,8 +60,8 @@ async function switchModes(e) {
 								vid.play()
 								function loop() {
 												drawImg()
-												if (state.mode === 'webcam')
-																requestAnimationFrame(loop)
+												if (state.mode !== 'webcam') return
+												requestAnimationFrame(loop)
 								}
 								vid.addEventListener('play', () => {
 												requestAnimationFrame(loop)
@@ -104,7 +104,7 @@ function getPixelData(srcElem, canvas) {
 				} = srcElem.getBoundingClientRect()
 
 				const scaleFactor = srcElemWidth / ASCII_WIDTH
-				const height = (srcElemHeight / scaleFactor) / 4 // fuck about until the image looks square
+				const height = (srcElemHeight / scaleFactor) // 2 // fuck about until the image looks square
 
 				canvas.width = ASCII_WIDTH
 				canvas.height = height 

@@ -3,19 +3,11 @@
 				<meta charset="utf-8">
 				<title>Image to ASCII</title>
 				<script type="module" src="main.js"></script>
-				<style>
-								code {
-												font-size: 0.5rem;
-								}
-
-								canvas {
-												display: none;
-								}
-				</style>
+				<link rel="stylesheet" href="style.css" />
 </head>
 <body>
 				<main>
-								<div>
+								<section>
 												<h1>Input</h1>
 												<button id="camSwitch" data-mode="image">Use Webcam</button>
 												<input id="imgUpload" type="file">
@@ -23,8 +15,8 @@
 																<img src="haku.png" style="display: block;" />
 																<video style="display: none;" height="400"></video>
 												</div>
-								</div>
-								<div>
+								</section>
+								<section>
 												<h1>Output</h1>
 												<label>
 																Contrast
@@ -41,6 +33,6 @@
 												<pre>
 																<code id="out"></code>
 												</pre>
-								</div>
+								</section>
 				</main>
 </body>
